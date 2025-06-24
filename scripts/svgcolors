@@ -1,0 +1,17 @@
+#!/bin/env bash
+
+file=$1
+# stroke or fill
+option=$2
+#color
+color=$3
+
+if [ -z "$file" ] || [ -z "$option" ] || [ -z "$color" ]; then
+	echo "Missing options"
+	exit 1
+fi
+
+command="'s/$option=\"#?[a-zA-Z0-9]+\"/$option=\"$color\"/' $file"
+echo $command
+sed -E "s/$option=\"#?[a-zA-Z0-9]+\"/$option=\"$color\"/" $file
+

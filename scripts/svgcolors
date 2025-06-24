@@ -11,7 +11,5 @@ if [ -z "$file" ] || [ -z "$option" ] || [ -z "$color" ]; then
 	exit 1
 fi
 
-command="'s/$option=\"#?[a-zA-Z0-9]+\"/$option=\"$color\"/' $file"
-echo $command
-sed -E "s/$option=\"#?[a-zA-Z0-9]+\"/$option=\"$color\"/" $file
+sed -E -i "s/$option=\"#?[a-zA-Z0-9]+\"/$option=\"$color\"/" $file
 

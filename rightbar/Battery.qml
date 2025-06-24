@@ -44,6 +44,14 @@ Item {
                     iconName: getBatteryIcon(false)
                 }
             }
+        },
+        State {
+            name: "Fully Charged"
+            PropertyChanges {
+                battery {
+                    iconName: getBatteryIcon(true)
+                }
+            }
         }
     ]
 }

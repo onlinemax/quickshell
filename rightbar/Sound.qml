@@ -12,12 +12,12 @@ Item {
 
     implicitWidth: soundText.width + 2 * padding
     function getSound() {
-        return Math.round(Pipewire.defaultAudioSink.audio.volume * 100);
+        return Math.round((Pipewire.defaultAudioSink?.audio.volume ?? 0) * 100);
     }
 
     function getIcon() {
-        const muted = Pipewire.defaultAudioSink.audio.muted;
-        const volume = Pipewire.defaultAudioSink.audio.volume;
+        const muted = Pipewire.defaultAudioSink?.audio.muted ?? true;
+        const volume = getSound();
         return muted ? volumeOff : (volume == 0) ? volumeMuted : (volume < 50) ? volumeIcons[0] : volumeIcons[1];
     }
     Text {

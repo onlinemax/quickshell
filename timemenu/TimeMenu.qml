@@ -1,4 +1,5 @@
 import QtQuick
+import ".."
 
 Rectangle {
     id: root
@@ -8,7 +9,7 @@ Rectangle {
     implicitWidth: 180
     implicitHeight: 190
     radius: 30
-    color: "#15115C"
+    color: Colors.background
     clip: true
 
     function toggleMenu() {
@@ -18,7 +19,7 @@ Rectangle {
     states: [
         State {
             name: "visible"
-            when: shown
+            when: root.shown
 
             PropertyChanges {
                 root {
@@ -28,7 +29,7 @@ Rectangle {
         },
         State {
             name: ""
-            when: !shown
+            when: !root.shown
             PropertyChanges {
                 root {
                     y: -height

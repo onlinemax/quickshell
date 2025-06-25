@@ -1,6 +1,9 @@
+pragma ComponentBehavior: Bound
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick
+import Quickshell.Io
+import Quickshell
 import ".."
 
 ColumnLayout {
@@ -8,72 +11,68 @@ ColumnLayout {
     property date currentDate: new Date()
     readonly property int padding: 10
     property var monthCases
-    spacing: 5
 
+    spacing: 3
     anchors.margins: padding
     anchors.fill: parent
     anchors.top: parent.top
 
     Item {
-
+        id: titleBar
         implicitWidth: parent.width
         implicitHeight: 30
         Layout.alignment: Qt.AlignTop
         readonly property int radius: 10
 
-        Button {
+        Text {
+            id: title
             anchors.left: parent.left
-            anchors.leftMargin: padding + parent.radius / 2
-            anchors.verticalCenter: parent.verticalCenter
-            background: Rectangle {
-                anchors.fill: parent
-                color: '#c2c2c2'
-                radius: parent.parent.radius
+            anchors.leftMargin: padding + parent.radius
+            text: Qt.formatDateTime(colLayout.currentDate, "MMM yyyy")
+            color: Colors.on_background
+            font.family: "Inter"
+            font.pointSize: 13
+        }
+        RowLayout {
+            anchors.right: parent.right
+            anchors.rightMargin: padding
+            Button {
+                implicitWidth: 23
+                implicitHeight: 18
+                background: Rectangle {
+                    anchors.fill: parent
+                    color: Colors.secondary
+                    radius: 4
+                    Image {
+                        source: "../images/left.svg"
+                        anchors.centerIn: parent
+                        width: 15
+                        height: 15
+                    }
+                }
+                onClicked: {
+                    colLayout.currentDate.setMonth(colLayout.currentDate.getMonth() - 1);
+                    gridCalendar.getMonthData();
+                }
+            }
+            Button {
+                implicitWidth: 23
+                implicitHeight: 18
+                onClicked: {
+                    colLayout.currentDate.setMonth(colLayout.currentDate.getMonth() + 1);
+                    gridCalendar.getMonthData();
+                }
+                background: Rectangle {
+                    anchors.fill: parent
+                    color: Colors.secondary
+                    radius: 4
+                }
                 Image {
-                    source: "../images/left.svg"
+                    source: "../images/right.svg"
                     anchors.centerIn: parent
                     width: 15
                     height: 15
                 }
-            }
-            Layout.alignment: Qt.AlignLeft
-            implicitWidth: 20
-            implicitHeight: implicitWidth
-            onClicked: {
-                colLayout.currentDate.setMonth(colLayout.currentDate.getMonth() - 1);
-                gridCalendar.getMonthData();
-            }
-        }
-        Text {
-            id: title
-            anchors.centerIn: parent
-            text: Qt.formatDateTime(colLayout.currentDate, "MMM yyyy")
-            color: Colors.on_background
-            Layout.alignment: Qt.AlignCenter
-            font.family: "Inter"
-            font.pointSize: 15
-        }
-        Button {
-            anchors.right: parent.right
-            anchors.verticalCenter: parent.verticalCenter
-            implicitWidth: 20
-            implicitHeight: implicitWidth
-            anchors.rightMargin: padding + parent.radius / 2
-            onClicked: {
-                colLayout.currentDate.setMonth(colLayout.currentDate.getMonth() + 1);
-                gridCalendar.getMonthData();
-            }
-            Layout.alignment: Qt.AlignRight
-            background: Rectangle {
-                anchors.fill: parent
-                color: '#c2c2c2'
-                radius: parent.parent.radius
-            }
-            Image {
-                source: "../images/right.svg"
-                anchors.centerIn: parent
-                width: 15
-                height: 15
             }
         }
     }
@@ -85,6 +84,7 @@ ColumnLayout {
         Repeater {
             model: colLayout.monthCases.length
             Rectangle {
+                required property int index
                 readonly property var monthCase: colLayout.monthCases[index]
                 implicitWidth: (colLayout.width - 2 * 6) / 7
                 implicitHeight: implicitWidth / (monthCase.dayName ? 2 : 1)
@@ -92,7 +92,7 @@ ColumnLayout {
                 Text {
                     anchors.centerIn: parent
                     text: parent.monthCase.dayName ? parent.monthCase.week : parent.monthCase.day
-                    color: parent.monthCase.hidden ? '#5664a5' : 'whitesmoke'
+                    color: parent.monthCase.hidden ? Colors.on_secondary : Colors.on_background
                     font.bold: parent.monthCase.dayName
                     font.family: "Roboto"
                 }
@@ -100,7 +100,7 @@ ColumnLayout {
         }
 
         function getMonthData() {
-            const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+            const date = new Date(colLayout.currentDate.getFullYear(), colLayout.currentDate.getMonth(), 1);
             const year = date.getFullYear();
             const month = date.getMonth();
             const isTodayMonth = new Date().getMonth() == month && new Date().getFullYear() == year;
@@ -146,5 +146,14 @@ ColumnLayout {
         Component.onCompleted: {
             getMonthData();
         }
+    }
+    // TODO: Change the following process to `Quickshell.execDetached`
+    Process {
+        running: true
+        command: [`${Quickshell.shellRoot}/scripts/svgcolors`, `${Quickshell.shellRoot}/images/right.svg`, "stroke", Colors.on_secondary]
+    }
+    Process {
+        running: true
+        command: [`${Quickshell.shellRoot}/scripts/svgcolors`, `${Quickshell.shellRoot}/images/left.svg`, "stroke", Colors.on_secondary]
     }
 }

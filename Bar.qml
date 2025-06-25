@@ -18,10 +18,12 @@ Variants {
 
         PanelWindow {
             color: 'transparent'
+
             anchors {
                 top: true
                 left: true
                 right: true
+                bottom: false
             }
             exclusiveZone: barHeight
             implicitHeight: barHeight

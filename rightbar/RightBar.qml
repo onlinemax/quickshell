@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import ".."
+import "../utils"
 
 Button {
 
@@ -33,5 +34,8 @@ Button {
                 implicitHeight: wrapper.implicitHeight
             }
         }
+    }
+    Component.onCompleted: {
+        console.log(ComputerInfo.cpu);
     }
 }

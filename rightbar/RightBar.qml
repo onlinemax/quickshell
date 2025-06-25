@@ -35,7 +35,4 @@ Button {
             }
         }
     }
-    Component.onCompleted: {
-        console.log(ComputerInfo.cpu);
-    }
 }

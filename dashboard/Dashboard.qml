@@ -1,26 +1,26 @@
 import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
 import ".."
+import "../utils"
 
 Rectangle {
     id: wrapper
     readonly property int padding: 5
     property bool shown: false
-    implicitWidth: dashboard.height + 2 * wrapper.padding
-    implicitHeight: dashboard.height + 2 * padding
+    radius: 25
+    implicitWidth: 300 + 2 * wrapper.padding
+    implicitHeight: 300 + 2 * padding
     y: -wrapper.height
-    color: 'red'
-    Item {
-        id: dashboard
-        implicitWidth: 500
-        implicitHeight: 300
-    }
+    color: Colors.background
     states: [
         State {
-            name: ""
+            name: "notvisible"
             when: !wrapper.shown
             PropertyChanges {
                 wrapper {
                     y: -wrapper.height
+                    visible: false
                 }
             }
         },
@@ -30,16 +30,92 @@ Rectangle {
             PropertyChanges {
                 wrapper {
                     y: 40
+                    visible: true
                 }
             }
         }
     ]
-    transitions: Transition {
-        NumberAnimation {
-            target: wrapper
-            property: "y"
-            duration: 400
-            easing.type: Easing.InOutQuad
+    transitions: [
+        Transition {
+            from: "notvisible"
+            to: "visible"
+            SequentialAnimation {
+                PropertyAction {
+                    target: wrapper
+                    property: "visible"
+                    value: true
+                }
+                NumberAnimation {
+                    target: wrapper
+                    property: "y"
+                    duration: 400
+                    easing.type: Easing.InOutQuad
+                }
+            }
+        },
+        Transition {
+            from: "visible"
+            to: "notvisible"
+            reversible: true
+            SequentialAnimation {
+                NumberAnimation {
+                    target: wrapper
+                    property: "y"
+                    duration: 400
+                    easing.type: Easing.InOutQuad
+                }
+                PropertyAction {
+                    target: wrapper
+                    property: "visible"
+                    value: false
+                }
+            }
+        }
+    ]
+    RowLayout {
+        id: rowLayout
+        anchors.fill: parent
+        anchors.topMargin: 20
+        anchors.leftMargin: 10
+        anchors.rightMargin: 10
+        anchors.bottomMargin: 20
+        spacing: 10
+
+        InfoSlider {
+            val: ComputerInfo.cpu
+            text: "\uf4bc"
+        }
+
+        InfoSlider {
+            text: "\uefc5"
+            val: ComputerInfo.memory
+        }
+        GridLayout {
+            // This is to push the other layout element together
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+    }
+
+    component InfoSlider: ColumnLayout {
+        required property real val
+        required property string text
+        implicitWidth: 500
+        implicitHeight: 300
+        Layout.fillHeight: true
+        Layout.preferredWidth: 10
+        Layout.alignment: Qt.AlignLeft
+        CoolProgressBar {
+            Layout.fillHeight: true
+            val: parent.val
+            implicitWidth: 10
+            Layout.alignment: Qt.AlignCenter
+        }
+        Text {
+            text: parent.text
+            color: Colors.on_background
+            font.pixelSize: 20
+            Layout.alignment: Qt.AlignCenter
         }
     }
 }

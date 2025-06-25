@@ -45,13 +45,22 @@ Variants {
                 width: win.width
                 height: win.height
                 intersection: Intersection.Xor
-                regions: Region {
-                    x: timemenu.x
-                    y: timemenu.y
-                    width: timemenu.width
-                    height: timemenu.height
-                    intersection: Intersection.Subtract
-                }
+                regions: [
+                    Region {
+                        x: timemenu.x
+                        y: timemenu.y
+                        width: timemenu.width
+                        height: timemenu.height
+                        intersection: Intersection.Subtract
+                    },
+                    Region {
+                        x: dashboard.x
+                        y: dashboard.y
+                        width: dashboard.width
+                        height: dashboard.height
+                        intersection: Intersection.Subtract
+                    }
+                ]
             }
 
             Item {

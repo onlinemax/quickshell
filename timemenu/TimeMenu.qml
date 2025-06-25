@@ -11,6 +11,7 @@ Rectangle {
     radius: 30
     color: Colors.background
     clip: true
+    onVisibleChanged: console.log('timemenu visibled?', visible)
 
     function toggleMenu() {
         this.shown = !this.shown;
@@ -38,13 +39,40 @@ Rectangle {
         }
     ]
 
-    transitions: Transition {
-        NumberAnimation {
-            property: "y"
-            duration: 500
-            easing.type: Easing.BezierSpline
+    transitions: [
+        Transition {
+            from: ""
+            to: "visible"
+            SequentialAnimation {
+                PropertyAction {
+                    target: root
+                    property: "visible"
+                    value: true
+                }
+                NumberAnimation {
+                    property: "y"
+                    duration: 500
+                    easing.type: Easing.BezierSpline
+                }
+            }
+        },
+        Transition {
+            from: "visible"
+            to: ""
+            SequentialAnimation {
+                NumberAnimation {
+                    property: "y"
+                    duration: 500
+                    easing.type: Easing.BezierSpline
+                }
+                PropertyAction {
+                    target: root
+                    property: "visible"
+                    value: false
+                }
+            }
         }
-    }
+    ]
 
     Calendar {}
 }

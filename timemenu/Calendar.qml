@@ -14,7 +14,6 @@ ColumnLayout {
 
     spacing: 3
     anchors.margins: padding
-    anchors.fill: parent
     anchors.top: parent.top
 
     Item {

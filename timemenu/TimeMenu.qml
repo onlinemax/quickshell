@@ -11,7 +11,6 @@ Rectangle {
     radius: 30
     color: Colors.background
     clip: true
-    
 
     function toggleMenu() {
         this.shown = !this.shown;
@@ -71,5 +70,7 @@ Rectangle {
         }
     ]
 
-    Calendar {}
+    Calendar {
+        anchors.fill: parent
+    }
 }

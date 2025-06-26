@@ -56,7 +56,10 @@ fn get_usage(prev: (u32, u32), curr: (u32, u32)) -> f32 {
 
 fn parse_cpu_stat() -> Result<(u32, u32), Box<dyn std::error::Error>> {
     let info = fs::read_to_string("/proc/stat")?;
-    let cpu_line = info.lines().next().ok_or("Could not read first line of /proc/stat")?;
+    let cpu_line = info
+        .lines()
+        .next()
+        .ok_or("Could not read first line of /proc/stat")?;
     let mut idle_time = 0;
     let mut total_time = 0;
     for (i, stat_str) in cpu_line.split_whitespace().skip(1).enumerate() {
@@ -83,13 +86,15 @@ fn get_memory() -> Result<(u64, u64), Box<dyn std::error::Error>> {
     for line in mem_str.lines() {
         if let Some(value_str) = line.strip_prefix("MemTotal:") {
             if let Some(value) = value_str.trim().strip_suffix(" kB") {
-                 mem_total = value.parse::<u64>()?;
+                mem_total = value.parse::<u64>()?;
             }
+            continue;
         }
         if let Some(value_str) = line.strip_prefix("MemAvailable:") {
             if let Some(value) = value_str.trim().strip_suffix(" kB") {
                 mem_available = value.parse::<u64>()?;
             }
+            break;
         }
     }
     if mem_total == 0 || mem_available == 0 {
@@ -98,3 +103,4 @@ fn get_memory() -> Result<(u64, u64), Box<dyn std::error::Error>> {
         Ok((mem_available, mem_total))
     }
 }
+

@@ -11,7 +11,7 @@ Rectangle {
     radius: 30
     color: Colors.background
     clip: true
-    onVisibleChanged: console.log('timemenu visibled?', visible)
+    
 
     function toggleMenu() {
         this.shown = !this.shown;
@@ -21,27 +21,24 @@ Rectangle {
         State {
             name: "visible"
             when: root.shown
-
             PropertyChanges {
-                root {
-                    y: 40
-                }
+                target: root
+                y: 40
             }
         },
         State {
-            name: ""
+            name: "hidden"
             when: !root.shown
             PropertyChanges {
-                root {
-                    y: -height
-                }
+                target: root
+                y: -root.height
             }
         }
     ]
 
     transitions: [
         Transition {
-            from: ""
+            from: "hidden"
             to: "visible"
             SequentialAnimation {
                 PropertyAction {
@@ -58,7 +55,7 @@ Rectangle {
         },
         Transition {
             from: "visible"
-            to: ""
+            to: "hidden"
             SequentialAnimation {
                 NumberAnimation {
                     property: "y"

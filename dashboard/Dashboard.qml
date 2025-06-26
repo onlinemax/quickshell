@@ -72,10 +72,10 @@ Rectangle {
             }
         }
     ]
-    GridLayout {
+    RowLayout {
         anchors.fill: parent
         anchors.margins: 10
-        columns: 2
+        spacing: 10
 
         InfoSlider {
             val: ComputerInfo.cpu
@@ -88,22 +88,8 @@ Rectangle {
             val: ComputerInfo.memory
             visible: !ComputerInfo.loading && ComputerInfo.errorMessage === ""
         }
-
-        Text {
-            text: "Loading..."
-            visible: ComputerInfo.loading
-            anchors.centerIn: parent
-            font.pixelSize: 20
-            color: Colors.on_background
-        }
-
-        Text {
-            text: ComputerInfo.errorMessage
-            visible: ComputerInfo.errorMessage !== ""
-            anchors.centerIn: parent
-            font.pixelSize: 16
-            color: Colors.error // Using the correct color from the singleton
-            wrapMode: Text.WordWrap
+        Item {
+            Layout.fillWidth: true
         }
     }
 

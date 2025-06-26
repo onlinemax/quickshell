@@ -10,16 +10,17 @@ ProgressBar {
     to: 100
     background: Rectangle {
         width: parent.width
+        color: Colors.on_primary
         height: parent.height
-        color: Colors.primary
         radius: 10
     }
     contentItem: Rectangle {
         height: control.height * control.visualPosition
         anchors.top: parent.top
-        color: Colors.on_primary
-        topRightRadius: 10
+        color: Colors.primary
         topLeftRadius: 10
+        topRightRadius: 10
+        bottomRightRadius: 0
+        bottomLeftRadius: 0
     }
-    Component.onCompleted: {}
 }

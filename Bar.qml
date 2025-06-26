@@ -12,6 +12,7 @@ import "./dashboard/"
 
 Variants {
     model: Quickshell.screens
+
     Scope {
         property ShellScreen modelData
         readonly property int barHeight: 25
@@ -32,10 +33,10 @@ Variants {
         PanelWindow {
             id: win
 
-            WlrLayershell.exclusionMode: ExclusionMode.Ignore
             color: 'transparent'
             implicitHeight: barHeight
             screen: modelData
+            WlrLayershell.exclusionMode: ExclusionMode.Ignore
 
             anchors {
                 top: true

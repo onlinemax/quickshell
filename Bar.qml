@@ -32,12 +32,17 @@ Variants {
         PanelWindow {
             id: win
 
-            exclusionMode: ExclusionMode.Normal
-
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
             color: 'transparent'
             implicitHeight: barHeight
             screen: modelData
+
+            anchors {
+                top: true
+                left: true
+                right: true
+                bottom: true
+            }
 
             mask: Region {
                 x: 0
@@ -105,12 +110,6 @@ Variants {
 
             // we can then set the window's screen to the injected property
 
-            anchors {
-                top: true
-                left: true
-                right: true
-                bottom: true
-            }
             TimeMenu {
                 id: timemenu
             }

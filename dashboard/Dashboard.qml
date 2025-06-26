@@ -72,28 +72,38 @@ Rectangle {
             }
         }
     ]
-    RowLayout {
-        id: rowLayout
+    GridLayout {
         anchors.fill: parent
-        anchors.topMargin: 20
-        anchors.leftMargin: 10
-        anchors.rightMargin: 10
-        anchors.bottomMargin: 20
-        spacing: 10
+        anchors.margins: 10
+        columns: 2
 
         InfoSlider {
             val: ComputerInfo.cpu
             text: "\uf4bc"
+            visible: !ComputerInfo.loading && ComputerInfo.errorMessage === ""
         }
 
         InfoSlider {
             text: "\uefc5"
             val: ComputerInfo.memory
+            visible: !ComputerInfo.loading && ComputerInfo.errorMessage === ""
         }
-        GridLayout {
-            // This is to push the other layout element together
-            Layout.fillHeight: true
-            Layout.fillWidth: true
+
+        Text {
+            text: "Loading..."
+            visible: ComputerInfo.loading
+            anchors.centerIn: parent
+            font.pixelSize: 20
+            color: Colors.on_background
+        }
+
+        Text {
+            text: ComputerInfo.errorMessage
+            visible: ComputerInfo.errorMessage !== ""
+            anchors.centerIn: parent
+            font.pixelSize: 16
+            color: Colors.error // Using the correct color from the singleton
+            wrapMode: Text.WordWrap
         }
     }
 

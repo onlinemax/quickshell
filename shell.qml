@@ -1,5 +1,7 @@
 import Quickshell
 
-Scope {
+ShellRoot {
+    id: root
+    settings.workingDirectory: "~/.config/quickshell/"
     Bar {}
 }

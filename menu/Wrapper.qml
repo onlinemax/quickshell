@@ -1,23 +1,34 @@
 import QtQuick
 import ".."
+import "../utils/"
 
 Rectangle {
     id: wrapper
     required property var properties
 
-    implicitWidth: 600
-    implicitHeight: 400
+    implicitWidth: Appearance.width.xl
+    implicitHeight: Appearance.height.large
     color: Colors.background
     anchors.horizontalCenter: parent.horizontalCenter
+    visible: implicitHeight != 0
     state: properties.menuOpen ? "visible" : "hidden"
-    visible: false
 
     MouseArea {
+
+        hoverEnabled: true
+        propagateComposedEvents: true
+        acceptedButtons: Qt.AllButtons
+        anchors.fill: parent
+        z: 1
+
+        onExited: {
+            wrapper.properties.menuOpen = false;
+        }
         Menu {
             id: menu
             focus: true
+            properties: wrapper.properties
         }
-        anchors.fill: parent
     }
 
     states: [
@@ -25,7 +36,7 @@ Rectangle {
             name: "visible"
             PropertyChanges {
                 target: wrapper
-                implicitHeight: 400
+                implicitHeight: Appearance.height.xl
             }
         },
         State {
@@ -40,7 +51,7 @@ Rectangle {
         NumberAnimation {
             target: wrapper
             property: "implicitHeight"
-            duration: 200
+            duration: Appearance.duration.little
             easing.type: Easing.InOutQuad
         }
     }

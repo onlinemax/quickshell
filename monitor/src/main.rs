@@ -103,4 +103,3 @@ fn get_memory() -> Result<(u64, u64), Box<dyn std::error::Error>> {
         Ok((mem_available, mem_total))
     }
 }
-

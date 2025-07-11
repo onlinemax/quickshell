@@ -3,13 +3,13 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick
 import Quickshell.Io
-import Quickshell
 import ".."
+import "../utils/"
 
 ColumnLayout {
     id: colLayout
     property date currentDate: new Date()
-    readonly property int padding: 10
+    readonly property int padding: Appearance.padding.little
     property var monthCases
 
     spacing: 3
@@ -19,7 +19,7 @@ ColumnLayout {
     Item {
         id: titleBar
         implicitWidth: parent.width
-        implicitHeight: 30
+        implicitHeight: Appearance.height.icon
         Layout.alignment: Qt.AlignTop
         readonly property int radius: 10
 
@@ -30,7 +30,7 @@ ColumnLayout {
             text: Qt.formatDateTime(colLayout.currentDate, "MMM yyyy")
             color: Colors.on_background
             font.family: "Inter"
-            font.pointSize: 13
+            font.pointSize: Appearance.fontSize.little
         }
         RowLayout {
             anchors.right: parent.right
@@ -146,13 +146,9 @@ ColumnLayout {
             getMonthData();
         }
     }
-    // TODO: Change the following process to `Quickshell.execDetached`
-    Process {
-        running: true
-        command: [`${Quickshell.shellRoot}/scripts/svgcolors`, `${Quickshell.shellRoot}/images/right.svg`, "stroke", Colors.on_secondary]
-    }
-    Process {
-        running: true
-        command: [`${Quickshell.shellRoot}/scripts/svgcolors`, `${Quickshell.shellRoot}/images/left.svg`, "stroke", Colors.on_secondary]
-    }
+    Component.onCompleted:
+    // Quickshell.execDetached([`${Quickshell.configDir}/scripts/svgcolors`, `${Quickshell.configDir}/images/right.svg`, "stroke", Colors.on_secondary]);
+    //
+    // Quickshell.execDetached([`${Quickshell.configDir}/scripts/svgcolors`, `${Quickshell.configDir}/images/left.svg`, "stroke", Colors.on_secondary]);
+    {}
 }

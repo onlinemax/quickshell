@@ -5,7 +5,7 @@ import ".."
 Item {
     id: root
 
-    readonly property int padding: 5
+    readonly property int padding: Appearance.padding.little
     readonly property list<string> wifiStrengthIcons: ["\udb82\udd1f", "\udb82\udd22", "\udb82\udd25", "\udb82\udd28"]
     property string wifiIcon
 

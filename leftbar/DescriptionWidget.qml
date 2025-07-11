@@ -31,6 +31,7 @@ RowLayout {
                     return;
                 }
                 switch (out.class) {
+                case "Chromium":
                 case "chromium":
                     title = title.substring(0, title.lastIndexOf(" - Chromium"));
                     setSrcImage("../images/chromium.png");

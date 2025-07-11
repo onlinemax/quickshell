@@ -5,11 +5,17 @@ file=$1
 option=$2
 #color
 color=$3
+#ouput
+output=$4
 
-if [ -z "$file" ] || [ -z "$option" ] || [ -z "$color" ]; then
+if [ -z "$file" ] || [ -z "$option" ] || [ -z "$color" ] || [ -z "$output" ]; then
 	echo "Missing options"
 	exit 1
 fi
 
-sed -E -i "s/$option=\"#?[a-zA-Z0-9]+\"/$option=\"$color\"/" $file
 
+cp $file $output
+
+
+sed -E -i "s/$option=\"#?[a-zA-Z0-9]+\"/$option=\"$color\"/" $output
+sed -E -i "s/$option:#?[a-zA-Z0-9]+;/$option:$color;/" $output

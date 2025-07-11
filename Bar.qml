@@ -2,20 +2,32 @@ import Quickshell
 
 import QtQuick
 import Quickshell.Wayland
+import Quickshell.Hyprland
 
 import "./leftbar/"
 import "./centerbar/"
 import "./rightbar/"
-import "./timemenu/"
+import "./menu/"
 import "./utils"
 import "./dashboard/"
 
 Variants {
     model: Quickshell.screens
-
     Scope {
         property ShellScreen modelData
         readonly property int barHeight: 25
+        property var screenView: null
+
+        PersistentProperties {
+            id: properties
+            reloadableId: "persistedStates"
+
+            property bool dashboardOpen: false
+            property bool menuOpen: false
+            readonly property real dp: {
+                return 2;
+            }
+        }
 
         PanelWindow {
             color: 'transparent'
@@ -33,10 +45,10 @@ Variants {
         PanelWindow {
             id: win
 
+            WlrLayershell.exclusionMode: ExclusionMode.Ignore
             color: 'transparent'
             implicitHeight: barHeight
             screen: modelData
-            WlrLayershell.exclusionMode: ExclusionMode.Ignore
 
             anchors {
                 top: true
@@ -46,27 +58,15 @@ Variants {
             }
 
             mask: Region {
-                x: 0
-                y: bar.height
-                width: win.width
-                height: win.height
-                intersection: Intersection.Xor
-                regions: [
-                    Region {
-                        x: timemenu.x
-                        y: timemenu.y
-                        width: timemenu.width
-                        height: timemenu.height
-                        intersection: Intersection.Subtract
-                    },
-                    Region {
-                        x: dashboard.x
-                        y: dashboard.y
-                        width: dashboard.width
-                        height: dashboard.height
-                        intersection: Intersection.Subtract
-                    }
-                ]
+                Region {
+                    item: bar
+                }
+                Region {
+                    item: dashboard
+                }
+                Region {
+                    item: menu
+                }
             }
 
             Item {
@@ -78,7 +78,6 @@ Variants {
                     leftMargin: 10
                     rightMargin: anchors.leftMargin
                 }
-
                 implicitHeight: barHeight
                 implicitWidth: parent.width
 
@@ -89,12 +88,12 @@ Variants {
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 CenterBar {
-                    function toggleTimeMenu() {
-                        timemenu.toggleMenu();
+                    function toggleMenu() {
+                        properties.menuOpen = !properties.menuOpen;
                     }
 
                     anchors.centerIn: parent
-                    toggleMenu: toggleTimeMenu
+                    toggleMenu: toggleMenu
                     time: Time.time
                     implicitWidth: 100
                     implicitHeight: 20
@@ -103,7 +102,7 @@ Variants {
                     id: rightBar
                     anchors.right: parent.right
                     actionClicked: () => {
-                        dashboard.shown = !dashboard.shown;
+                        properties.dashboardOpen = !properties.dashboardOpen;
                     }
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -111,12 +110,17 @@ Variants {
 
             // we can then set the window's screen to the injected property
 
-            TimeMenu {
-                id: timemenu
+            Wrapper {
+                id: menu
+                properties: properties
             }
             Dashboard {
                 id: dashboard
+                properties: properties
                 x: bar.width - dashboard.width
+            }
+            BluetoothPopup {
+                parentWindow: win
             }
         }
     }

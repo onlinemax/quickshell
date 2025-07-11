@@ -10,17 +10,19 @@ ProgressBar {
     to: 100
     background: Rectangle {
         width: parent.width
-        color: Colors.on_primary
+        color: Colors.on_secondary
         height: parent.height
         radius: 10
     }
     contentItem: Rectangle {
         height: control.height * control.visualPosition
-        anchors.top: parent.top
-        color: Colors.primary
-        topLeftRadius: 10
-        topRightRadius: 10
-        bottomRightRadius: 0
-        bottomLeftRadius: 0
+        anchors.bottom: parent.bottom
+        color: Colors.secondary
+        radius: 10
+        Behavior on height {
+            NumberAnimation {
+                duration: 200
+            }
+        }
     }
 }

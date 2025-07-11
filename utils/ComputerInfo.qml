@@ -10,10 +10,11 @@ Singleton {
     property double memory
     property bool loading: true
     property string errorMessage: ""
+    property bool running: true
 
     Process {
-        command: [`${Quickshell.shellRoot}/scripts/monitor`]
-        running: true
+        command: [`${Quickshell.configDir}/scripts/monitor`]
+        running: info.running
         stdout: SplitParser {
             splitMarker: "\n"
             onRead: message => {
@@ -37,7 +38,7 @@ Singleton {
                     info.loading = false;
                 }
                 info.errorMessage = message;
-                console.error("Monitor Process Error:", message)
+                console.error("Monitor Process Error:", message);
             }
         }
     }

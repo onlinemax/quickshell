@@ -18,7 +18,6 @@ ColumnLayout {
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: 70
-            color: 'blue'
             radius: 15
             MouseArea {
                 anchors.fill: parent
@@ -58,7 +57,7 @@ ColumnLayout {
         }
         Meteo {
             Layout.preferredWidth: 70
-            Layout.preferredHeight: 7
+            Layout.preferredHeight: 70
         }
     }
     RowLayout {

@@ -119,9 +119,6 @@ Variants {
                 properties: properties
                 x: bar.width - dashboard.width
             }
-            BluetoothPopup {
-                parentWindow: win
-            }
         }
     }
 }

@@ -5,7 +5,7 @@ import QtQuick.Controls
 import Quickshell.Services.Pipewire
 import Quickshell.Widgets
 import Quickshell
-import "../../"
+import qs
 
 Item {
     Text {

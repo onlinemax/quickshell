@@ -2,11 +2,11 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell
-import ".."
-import "../utils/"
-import "./home"
-import "./bluetooth"
-import "../widgets/"
+import qs
+import qs.utils
+import qs.menu.home
+import qs.menu.bluetooth
+import qs.widgets
 
 RowLayout {
     id: root
@@ -18,7 +18,7 @@ RowLayout {
 
     Column {
         id: bar
-        property int currentIndex: 2
+        property int currentIndex: 0
         Layout.fillHeight: true
         Layout.preferredWidth: Appearance.width.icon - 10
         spacing: 10

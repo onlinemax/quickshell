@@ -4,9 +4,9 @@ import Quickshell.Bluetooth
 import QtQuick.Layouts
 import QtQuick.Effects
 import Quickshell.Widgets
-import "../.."
-import "../../utils/"
-import "../../widgets"
+import qs
+import qs.utils
+import qs.widgets
 
 Item {
     required property var properties

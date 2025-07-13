@@ -1,5 +1,5 @@
 import QtQuick
-import "../.."
+import qs
 
 Rectangle {
     radius: 15

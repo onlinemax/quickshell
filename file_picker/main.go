@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
+	"github.com/rymdport/portal/filechooser"
 	"log"
+	"os"
 	"strings"
 	"time"
-
-	"github.com/rymdport/portal/filechooser"
 )
 
 func main() {
+	var home_dir = os.Getenv("HOME")
 	var rules []filechooser.Rule
 	var timestamp = time.Now().Format("2006-01-02-15-04-05")
 	rules = append(rules, filechooser.Rule{Type: filechooser.GlobPattern, Pattern: "*.mp4"})
@@ -18,7 +19,7 @@ func main() {
 			Name:  "Videos",
 			Rules: rules,
 		},
-		CurrentFolder: "/home/max/Videos/Recordings/",
+		CurrentFolder: fmt.Sprintf("%s/Videos/Recordings/", home_dir),
 		CurrentName:   fmt.Sprintf("recording-%s.mp4", timestamp),
 	}
 
